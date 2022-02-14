@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 13, 2022 at 07:30 AM
+-- Generation Time: Feb 14, 2022 at 07:30 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -97,6 +97,45 @@ CREATE TABLE `region` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `role`
+--
+
+CREATE TABLE `role` (
+  `r_id` int(11) NOT NULL,
+  `role_name` varchar(120) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `role`
+--
+
+INSERT INTO `role` (`r_id`, `role_name`) VALUES
+(1, 'Tax Collector');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `first_name` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `role` int(11) NOT NULL,
+  `username` varchar(60) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `role`, `username`) VALUES
+(1, 'TRA', 'Admin', 1, 'tadmin');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `vendor`
 --
 
@@ -172,6 +211,19 @@ ALTER TABLE `region`
   ADD UNIQUE KEY `r_code` (`r_code`);
 
 --
+-- Indexes for table `role`
+--
+ALTER TABLE `role`
+  ADD PRIMARY KEY (`r_id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `role_fkey` (`role`);
+
+--
 -- Indexes for table `vendor`
 --
 ALTER TABLE `vendor`
@@ -207,6 +259,18 @@ ALTER TABLE `payment_info`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `role`
+--
+ALTER TABLE `role`
+  MODIFY `r_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `ward`
 --
 ALTER TABLE `ward`
@@ -237,6 +301,12 @@ ALTER TABLE `business_location`
 --
 ALTER TABLE `payment_info`
   ADD CONSTRAINT `machinga_fkey` FOREIGN KEY (`vendor`) REFERENCES `vendor` (`id`);
+
+--
+-- Constraints for table `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `role_fkey` FOREIGN KEY (`role`) REFERENCES `role` (`r_id`);
 
 --
 -- Constraints for table `vendor`
